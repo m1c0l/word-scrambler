@@ -11,7 +11,6 @@ var replaceWord = function(word) {
 	for (var i = 2; sameLetters && i < word.length - 1; i++) {
 		if (word[i] != secondLetter) {
 			sameLetters = false;
-			break;
 		}
 	}
 	if (sameLetters) {
