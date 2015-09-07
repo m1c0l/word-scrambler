@@ -11,6 +11,7 @@ var replaceWord = function(word) {
 	for (var i = 2; sameLetters && i < word.length - 1; i++) {
 		if (word[i] != secondLetter) {
 			sameLetters = false;
+			break;
 		}
 	}
 	if (sameLetters) {
@@ -20,16 +21,16 @@ var replaceWord = function(word) {
 	// Do the Fisher-Yates shuffle until the word has changed
 	var newWord;
 	do {
-		var letters = word.split(""),
+		var letters = word.split(''),
 	        n = letters.length;
 
-	    for (var i = n - 3; i > 0; i--) {
-	        var j = Math.floor(Math.random() * (i + 1));
-	        var tmp = letters[i + 1];
-	        letters[i + 1] = letters[j + 1];
-	        letters[j + 1] = tmp;
+	    for (var i = n - 2; i > 1; i--) {
+	        var j = Math.floor(Math.random() * i) + 1;
+	        var tmp = letters[i];
+	        letters[i] = letters[j];
+	        letters[j] = tmp;
 	    }
-	    newWord = letters.join("");
+	    newWord = letters.join('');
 	} while(newWord.localeCompare(word) === 0);
 
 	return newWord;
