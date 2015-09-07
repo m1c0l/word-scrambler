@@ -36,28 +36,16 @@ var replaceWord = function(word) {
 	return newWord;
 };
 
-var processNodeText = function(textNode) {
-	// Skip this text node if it's inside a tag we don't want to edit
-	var ignoreTags = ['script', 'style'];
-	var parentElem = textNode.parentElement;
-	if (parentElem) {
-		var parentTag = parentElem.tagName.toLowerCase();
-		if (ignoreTags.indexOf(parentTag) !== -1) {
-			return;
-		}
-	}
-
-	var nodeValue = textNode.nodeValue;
-
-	// If the text node is empty, return
-	if (!/[^\n\s]/.test(nodeValue)) {
-		return;
+var processText = function(text) {
+	// If the text is empty, return
+	if (!/[^\n\s]/.test(text)) {
+		return text;
 	}
 
 	// Capture the non-alpha characters and split by them
 	var nonAlpha = /[^a-zA-Z]+/g;
-	var nonAlphaArray = nodeValue.match(nonAlpha);
-	var wordArray = nodeValue.split(nonAlpha);
+	var nonAlphaArray = text.match(nonAlpha);
+	var wordArray = text.split(nonAlpha);
 	// Edit the words and add the non-alpha characters in between
 	var editedWords = '';
 	for (var i = 0; i < wordArray.length - 1; i++) {
@@ -65,12 +53,26 @@ var processNodeText = function(textNode) {
 		editedWords += nonAlphaArray[i];
 	}
 	editedWords += replaceWord(wordArray[wordArray.length - 1]);
-	textNode.nodeValue = editedWords;
+	return editedWords;
 };
 
 var processBody = (function() {
 	var textNode, nodeIter = document.createNodeIterator(document.body, NodeFilter.SHOW_TEXT);
+	var ignoreTags = ['script', 'style'];
 	while ((textNode = nodeIter.nextNode())) {
-		processNodeText(textNode);
+		// Skip this text node if it's inside a tag we don't want to edit
+		var parentElem = textNode.parentElement;
+		if (parentElem) {
+			var parentTag = parentElem.tagName.toLowerCase();
+			if (ignoreTags.indexOf(parentTag) !== -1) {
+				continue;
+			}
+		}
+
+		textNode.nodeValue = processText(textNode.nodeValue);
 	}
+})();
+
+var processTitle = (function() {
+	document.title = processText(document.title);
 })();
