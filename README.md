@@ -11,7 +11,7 @@ For more wackiness, try using this extension combined with my [spelling-worsener
 
 ## What it does
 
-This extension scrambles the middle letters of the words on your web page using the [Fisher-Yates shuffle](https://en.wikipedia.org/wiki/Fisher%E2%80%93Yates_shuffle) until the word has changed from its original (words with the same letters in the middle like "keep" are skipped").
+This extension scrambles the middle letters of the words on your web page using the [Fisher-Yates shuffle](https://en.wikipedia.org/wiki/Fisher%E2%80%93Yates_shuffle) until the word has changed from its original (words with the same letters in the middle like "keep" are skipped).
 
 Since each word is changed every time you use the extension, you'll notice cycles in words such as "kept", which will oscillate between "kpet" and "kept".
 
